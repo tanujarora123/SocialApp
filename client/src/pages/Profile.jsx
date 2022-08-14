@@ -3,10 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import Spinner from '../components/Spinner';
-import {
-	getSingleProfile,
-	getuserRepos,
-} from '../features/profile/profileSlice';
+import { getSingleProfile, reset } from '../features/profile/profileSlice';
 import { FaCheck } from 'react-icons/fa';
 import Moment from 'react-moment';
 
@@ -19,15 +16,15 @@ function Profile() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
+		dispatch(getSingleProfile(params.profileId));
+	}, [params.profileId, dispatch]);
+
+	useEffect(() => {
 		if (isError) {
 			toast.error(message);
+			dispatch(reset());
 		}
-
-		dispatch(getSingleProfile(params.profileId));
-		// if (profile) {
-		// 	dispatch(getuserRepos(profile.githubusername));
-		// }
-	}, [isError, message, params.profileId, dispatch]);
+	}, [isError, message, dispatch]);
 
 	// useEffect(() => {
 	// 	if (isError) {

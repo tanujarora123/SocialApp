@@ -102,6 +102,7 @@ const profileSchema = new mongoose.Schema({
 profileSchema.pre('remove', async function (next) {
 	console.log(`Deleting user ${this.user}`);
 	await this.model('User').findByIdAndDelete(this.user);
+	await this.model('Post').deleteMany({ user: this.user });
 
 	next();
 });

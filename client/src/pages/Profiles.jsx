@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Spinner from '../components/Spinner';
 import { toast } from 'react-toastify';
-import { getAllProfiles } from '../features/profile/profileSlice';
+import { getAllProfiles, reset } from '../features/profile/profileSlice';
 import { FaConnectdevelop } from 'react-icons/fa';
 import ProfileItem from '../components/ProfileItem';
 
@@ -13,11 +13,14 @@ function Profiles() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
+		dispatch(getAllProfiles());
+	}, [dispatch]);
+
+	useEffect(() => {
 		if (isError && message !== 'There is no profile') {
 			toast.error(message);
+			dispatch(reset());
 		}
-
-		dispatch(getAllProfiles());
 	}, [isError, message, dispatch]);
 
 	if (isLoading) {
