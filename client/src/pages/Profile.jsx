@@ -62,21 +62,36 @@ function Profile() {
 							)}
 						</p>
 						<div className="icons my-1">
-							<Link to="!#">
-								<i className="fas fa-globe fa-2x"></i>
-							</Link>
-							<Link to="!#">
-								<i className="fab fa-twitter fa-2x"></i>
-							</Link>
-							<Link to="!#">
-								<i className="fab fa-facebook fa-2x"></i>
-							</Link>
-							<Link to="!#">
-								<i className="fab fa-linkedin fa-2x"></i>
-							</Link>
-							<Link to="!#">
-								<i className="fab fa-instagram fa-2x"></i>
-							</Link>
+							{profile.website && (
+								<a href={profile.website}>
+									<i className="fas fa-globe fa-2x"></i>
+								</a>
+							)}
+							{profile.social.twitter && (
+								<a href={profile.social.twitter}>
+									<i className="fas fa-twitter fa-2x"></i>
+								</a>
+							)}
+							{profile.social.youtube && (
+								<a href={profile.social.youtube}>
+									<i class="fa-brands fa-youtube fa-2x"></i>
+								</a>
+							)}
+							{profile.social.facebook && (
+								<a href={profile.social.facebook}>
+									<i className="fab fa-facebook fa-2x"></i>
+								</a>
+							)}
+							{profile.social.linkedin && (
+								<a href={profile.social.linkedin}>
+									<i className="fab fa-aedin fa-2x"></i>
+								</a>
+							)}
+							{profile.social.instagram && (
+								<a href={profile.social.instagram}>
+									<i className="fab fa-instagram fa-2x"></i>
+								</a>
+							)}
 						</div>
 					</div>
 
