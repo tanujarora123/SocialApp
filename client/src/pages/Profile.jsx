@@ -3,21 +3,30 @@ import { useParams, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import Spinner from '../components/Spinner';
-import { getSingleProfile, reset } from '../features/profile/profileSlice';
+import {
+	getSingleProfile,
+	reset,
+	getuserRepos,
+} from '../features/profile/profileSlice';
 import { FaCheck } from 'react-icons/fa';
 import Moment from 'react-moment';
+import RepoItem from '../components/RepoItem';
 
 function Profile() {
 	const params = useParams();
 
-	const { isError, message, profile, isLoading } = useSelector(
+	const { isError, message, profile, isLoading, repos } = useSelector(
 		state => state.profile
 	);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(getSingleProfile(params.profileId));
-	}, [params.profileId, dispatch]);
+		if (profile && profile.user._id === params.profileId) {
+			dispatch(getuserRepos(profile.githubusername));
+		} else {
+			dispatch(getSingleProfile(params.profileId));
+		}
+	}, [params.profileId, profile, dispatch]);
 
 	useEffect(() => {
 		if (isError) {
@@ -34,7 +43,7 @@ function Profile() {
 	// 	dispatch(getuserRepos(profile.githubusername));
 	// }, [isError, message, params.profileId, dispatch]);
 
-	if (isLoading) {
+	if (isLoading || profile === null) {
 		return <Spinner />;
 	}
 
@@ -63,32 +72,56 @@ function Profile() {
 						</p>
 						<div className="icons my-1">
 							{profile.website && (
-								<a href={profile.website}>
+								<a
+									href={profile.website}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
 									<i className="fas fa-globe fa-2x"></i>
 								</a>
 							)}
 							{profile.social.twitter && (
-								<a href={profile.social.twitter}>
+								<a
+									href={profile.social.twitter}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
 									<i className="fas fa-twitter fa-2x"></i>
 								</a>
 							)}
 							{profile.social.youtube && (
-								<a href={profile.social.youtube}>
-									<i class="fa-brands fa-youtube fa-2x"></i>
+								<a
+									href={profile.social.youtube}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									<i className="fa-brands fa-youtube fa-2x"></i>
 								</a>
 							)}
 							{profile.social.facebook && (
-								<a href={profile.social.facebook}>
+								<a
+									href={profile.social.facebook}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
 									<i className="fab fa-facebook fa-2x"></i>
 								</a>
 							)}
 							{profile.social.linkedin && (
-								<a href={profile.social.linkedin}>
+								<a
+									href={profile.social.linkedin}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
 									<i className="fab fa-aedin fa-2x"></i>
 								</a>
 							)}
 							{profile.social.instagram && (
-								<a href={profile.social.instagram}>
+								<a
+									href={profile.social.instagram}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
 									<i className="fab fa-instagram fa-2x"></i>
 								</a>
 							)}
@@ -178,6 +211,17 @@ function Profile() {
 								</p>
 							</div>
 						))}
+					</div>
+
+					<div className="profile-github">
+						<h2 className="text-primary my-1">
+							<i className="fab fa-github"></i> Github Repos
+						</h2>
+						{repos.length > 0 ? (
+							repos.map(r => <RepoItem key={r.id} repo={r} />)
+						) : (
+							<h4>No available repos!!</h4>
+						)}
 					</div>
 				</div>
 			</div>

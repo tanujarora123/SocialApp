@@ -119,8 +119,6 @@ const getuserRepos = async username => {
 
 	const response = await axios.get(API_URL);
 
-	console.log(response.data);
-
 	return response.data;
 };
 
